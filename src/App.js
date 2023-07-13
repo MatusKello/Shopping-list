@@ -4,10 +4,7 @@ import theme from './config/theme';
 
 const App = () => {
   return (
-    <ThemeProvider
-      theme={theme}
-      sx={{ background: theme.palette.secondary.main }}
-    >
+    <ThemeProvider theme={theme}>
       <ShoppingListContainer />
     </ThemeProvider>
   );

@@ -1,6 +1,15 @@
 import { Box, TextField, Button, Card, Typography } from '@mui/material';
+import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import ShoppingItem from './ShoppingItem';
 
 const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
+  console.log(
+    '🚀 ~ file: ShoppingList.jsx:6 ~ ShoppingList ~ list:',
+    list.shoppingItems
+  );
+  const [item, setItem] = useState('');
+
   const handleDeleteOneList = () => {
     const filteredList = allShoppingLists.filter(
       (oneList) => oneList.id !== list.id
@@ -8,7 +17,21 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
     setAllShoppingLists(filteredList);
   };
 
-  //vytvorit state na zachytenie itemu, vytvorit funkciu na add item, allshoppinglist.map najst objekt a donho vlozit
+  const handleAddItem = () => {
+    const newItem = {
+      id: uuidv4(),
+      name: item,
+    };
+    const updatedShoppingLists = allShoppingLists.map((oneList) => {
+      if (oneList.id === list.id) {
+        const updatedItems = [...oneList.shoppingItems, newItem];
+        return { ...oneList, shoppingItems: updatedItems };
+      }
+      return oneList;
+    });
+    setAllShoppingLists(updatedShoppingLists);
+    setItem('');
+  };
 
   return (
     <Card
@@ -28,8 +51,13 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
           flexDirection: 'column',
         }}
       >
-        <TextField variant='outlined' label='Name of the item' />
-        <Button>Add item</Button>
+        <TextField
+          variant='outlined'
+          label='Name of the item'
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+        />
+        <Button onClick={handleAddItem}>Add item</Button>
       </Box>
       <Box
         sx={{
@@ -43,7 +71,12 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
         <Typography variant='h5'>{list.name}</Typography>
         <Typography sx={{ fontFamily: 'cursive' }}>{list.date}</Typography>
       </Box>
-      <Button onClick={handleDeleteOneList}>Delete List</Button>
+      {list.shoppingItems.map((item) => (
+        <ShoppingItem key={item.id} item={item} />
+      ))}
+      <Button variant='outlined' onClick={handleDeleteOneList}>
+        Delete List
+      </Button>
     </Card>
   );
 };

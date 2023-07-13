@@ -1,4 +1,4 @@
-import { Box, TextField, Button, Card, Typography } from '@mui/material';
+import { Box, TextField, Button, Card } from '@mui/material';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -50,7 +50,11 @@ const AddShoppingList = ({ allShoppingLists, setAllShoppingLists }) => {
           />
           <TextField type='date' onChange={(e) => setToDate(e.target.value)} />
         </Box>
-        <Button onClick={handleCreateShoppingList} sx={{ marginTop: '2rem' }}>
+        <Button
+          variant='outlined'
+          onClick={handleCreateShoppingList}
+          sx={{ marginTop: '2rem' }}
+        >
           Add shopping list
         </Button>
       </Box>

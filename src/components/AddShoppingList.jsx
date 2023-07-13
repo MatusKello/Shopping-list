@@ -19,7 +19,13 @@ const AddShoppingList = ({ allShoppingLists, setAllShoppingLists }) => {
   };
 
   return (
-    <Card>
+    <Card
+      sx={{
+        background: (theme) => theme.palette.secondary.main,
+        margin: '0.5rem',
+        padding: '1rem',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',

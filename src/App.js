@@ -1,10 +1,15 @@
 import ShoppingListContainer from './pages/ShoppingListContainer';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './config/theme';
 
 const App = () => {
   return (
-    <div>
+    <ThemeProvider
+      theme={theme}
+      sx={{ background: theme.palette.secondary.main }}
+    >
       <ShoppingListContainer />
-    </div>
+    </ThemeProvider>
   );
 };
 

@@ -15,17 +15,33 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
         flexDirection: 'column',
+        background: (theme) => theme.palette.secondary.main,
+        padding: '1rem',
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
         <TextField variant='outlined' label='Name of the item' />
         <Button>Add item</Button>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexDirection: 'row',
+          margin: '1rem',
+        }}
+      >
         <Typography variant='h5'>{list.name}</Typography>
-        <Typography>{list.date}</Typography>
+        <Typography sx={{ fontFamily: 'cursive' }}>{list.date}</Typography>
       </Box>
       <Button onClick={handleDeleteOneList}>Delete List</Button>
     </Card>

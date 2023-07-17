@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ShoppingItem from './ShoppingItem';
 
-const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
-  console.log(
-    '🚀 ~ file: ShoppingList.jsx:6 ~ ShoppingList ~ list:',
-    list.shoppingItems
-  );
+const ShoppingList = ({
+  list,
+  setAllShoppingLists,
+  allShoppingLists,
+  updateItemCompletion,
+}) => {
   const [item, setItem] = useState('');
 
   const handleDeleteOneList = () => {
@@ -31,6 +32,23 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
     });
     setAllShoppingLists(updatedShoppingLists);
     setItem('');
+  };
+
+  const handleItemCompletionChange = (itemId, completed) => {
+    updateItemCompletion(list.id, itemId, completed);
+  };
+
+  const handleDeleteItem = (itemId) => {
+    const updatedItems = list.shoppingItems.filter(
+      (item) => item.id !== itemId
+    );
+    const updatedShoppingLists = allShoppingLists.map((oneList) => {
+      if (oneList.id === list.id) {
+        return { ...oneList, shoppingItems: updatedItems };
+      }
+      return oneList;
+    });
+    setAllShoppingLists(updatedShoppingLists);
   };
 
   return (
@@ -72,7 +90,12 @@ const ShoppingList = ({ list, setAllShoppingLists, allShoppingLists }) => {
         <Typography sx={{ fontFamily: 'cursive' }}>{list.date}</Typography>
       </Box>
       {list.shoppingItems.map((item) => (
-        <ShoppingItem key={item.id} item={item} />
+        <ShoppingItem
+          onItemCompletionChange={handleItemCompletionChange}
+          key={item.id}
+          item={item}
+          onDeleteItem={handleDeleteItem}
+        />
       ))}
       <Button variant='outlined' onClick={handleDeleteOneList}>
         Delete List

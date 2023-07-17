@@ -6,6 +6,23 @@ import { Box } from '@mui/material';
 const ShoppingListContainer = () => {
   const [allShoppingLists, setAllShoppingLists] = useState([]);
 
+  const updateItemCompletion = (updatedListId, updatedItemId, completed) => {
+    const updatedLists = allShoppingLists.map((oneList) => {
+      if (oneList.id === updatedListId) {
+        const updatedItems = oneList.shoppingItems.map((item) => {
+          if (item.id === updatedItemId) {
+            return { ...item, completed };
+          }
+          return item;
+        });
+        return { ...oneList, shoppingItems: updatedItems };
+      }
+      return oneList;
+    });
+
+    setAllShoppingLists(updatedLists);
+  };
+
   return (
     <Box
       sx={{
@@ -29,6 +46,7 @@ const ShoppingListContainer = () => {
           list={list}
           setAllShoppingLists={setAllShoppingLists}
           allShoppingLists={allShoppingLists}
+          updateItemCompletion={updateItemCompletion}
         />
       ))}
     </Box>

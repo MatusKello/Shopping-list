@@ -2,6 +2,7 @@ import { Box, TextField, Button, Card, Typography } from '@mui/material';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ShoppingItem from './ShoppingItem';
+import { capitalizeFirstLetter } from '../utils/helpers';
 
 const ShoppingList = ({
   list,
@@ -21,7 +22,7 @@ const ShoppingList = ({
   const handleAddItem = () => {
     const newItem = {
       id: uuidv4(),
-      name: item,
+      name: capitalizeFirstLetter(item),
     };
     const updatedShoppingLists = allShoppingLists.map((oneList) => {
       if (oneList.id === list.id) {
@@ -97,9 +98,21 @@ const ShoppingList = ({
           onDeleteItem={handleDeleteItem}
         />
       ))}
-      <Button variant='outlined' onClick={handleDeleteOneList}>
-        Delete List
-      </Button>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'end',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          sx={{ marginTop: '0.5rem' }}
+          variant='contained'
+          onClick={handleDeleteOneList}
+        >
+          Delete List
+        </Button>
+      </Box>
     </Card>
   );
 };

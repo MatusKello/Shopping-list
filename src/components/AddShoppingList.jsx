@@ -1,6 +1,7 @@
 import { Box, TextField, Button, Card } from '@mui/material';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { capitalizeFirstLetter, formatDate } from '../utils/helpers';
 
 const AddShoppingList = ({ allShoppingLists, setAllShoppingLists }) => {
   const [shoppingListName, setShoppingListName] = useState('');
@@ -8,14 +9,18 @@ const AddShoppingList = ({ allShoppingLists, setAllShoppingLists }) => {
 
   const handleCreateShoppingList = () => {
     const shoppingList = {
-      name: shoppingListName,
-      date: toDate,
+      name: capitalizeFirstLetter(shoppingListName),
+      date: toDate ? formatDate(toDate) : 'date not provided',
       id: uuidv4(),
       shoppingItems: [],
     };
     setAllShoppingLists([...allShoppingLists, shoppingList]);
     setShoppingListName('');
     setToDate('');
+  };
+
+  const handleResetAll = () => {
+    setAllShoppingLists([]);
   };
 
   return (
@@ -48,15 +53,32 @@ const AddShoppingList = ({ allShoppingLists, setAllShoppingLists }) => {
             label='Shopping list name'
             onChange={(e) => setShoppingListName(e.target.value)}
           />
-          <TextField type='date' onChange={(e) => setToDate(e.target.value)} />
+          <TextField
+            required
+            type='date'
+            onChange={(e) => setToDate(e.target.value)}
+          />
         </Box>
-        <Button
-          variant='outlined'
-          onClick={handleCreateShoppingList}
-          sx={{ marginTop: '2rem' }}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '1rem',
+            width: '100%',
+          }}
         >
-          Add shopping list
-        </Button>
+          <Button
+            onClick={handleResetAll}
+            variant='outlined'
+            disabled={allShoppingLists.length === 0}
+          >
+            Reset All lists
+          </Button>
+          <Button variant='contained' onClick={handleCreateShoppingList}>
+            Add shopping list
+          </Button>
+        </Box>
       </Box>
     </Card>
   );

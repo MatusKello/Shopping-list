@@ -1,12 +1,8 @@
-import { Box, Button, Card, Checkbox } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Box, Button, Card, Checkbox, FormControlLabel } from '@mui/material';
+import { useState } from 'react';
 
 const ShoppingItem = ({ item, onItemCompletionChange, onDeleteItem }) => {
   const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    setChecked(item.completed || false);
-  }, [item.completed]);
 
   const handleChange = (event) => {
     const completed = event.target.checked;
@@ -27,16 +23,24 @@ const ShoppingItem = ({ item, onItemCompletionChange, onDeleteItem }) => {
         flexDirection: 'row',
       }}
     >
-      <Box
-        sx={{
-          color: item.completed ? 'green' : 'red',
-          textDecoration: item.completed ? 'line-through' : 'none',
-        }}
-      >
-        <Checkbox checked={checked} onChange={handleChange} />
-        {item.name}
+      <Box>
+        <FormControlLabel
+          sx={{
+            color: item.completed ? 'green' : 'red',
+            textDecoration: item.completed ? 'line-through' : 'none',
+          }}
+          control={
+            <Checkbox
+              checked={checked}
+              onChange={(event) => handleChange(event)}
+            />
+          }
+          label={item.name}
+        />
       </Box>
-      <Button onClick={handleDeleteItem}>Delete Item</Button>
+      <Button variant='contained' onClick={handleDeleteItem}>
+        Delete Item
+      </Button>
     </Card>
   );
 };
